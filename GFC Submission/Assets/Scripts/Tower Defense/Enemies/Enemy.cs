@@ -28,6 +28,18 @@ public class Enemy : MonoBehaviour
         transform.position = Vector2.Lerp(prevCorner.position, nextCorner.position, trackSectionPos);
     }
 
+    public float TrackDistance()
+    {
+        return trackSectionIndex + trackSectionPos;
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        health -= dmg;
+        if (health <= 0)
+            Destroy(gameObject);
+    }
+
     private void OnEndOfSectionReached()
     {
         trackSectionPos = 0;
