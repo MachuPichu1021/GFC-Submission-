@@ -19,8 +19,6 @@ public struct Wave
     public SpawnOperation[] operations;
     [Tooltip("The amount of money to award at the end of this wave")]
     public int waveReward;
-    [Tooltip("The amount of time to complete this wave before automatically starting the enxt one in seconds")]
-    public float waveTime;
 }
 
 public class Spawner : MonoBehaviour
@@ -46,14 +44,14 @@ public class Spawner : MonoBehaviour
         if (waveOngoing)
         {
             enemySpawnTimer -= Time.fixedDeltaTime;
-            if (enemySpawnTimer <= 0)
+            if (currentOperationIndex < currentWave.operations.Length && enemySpawnTimer <= 0)
             {
                 SpawnEnemy();
                 if (currentWave.operations[currentOperationIndex].count == 0)
                     currentOperationIndex++;
-                if (currentOperationIndex == currentWave.operations.Length)
-                    OnEndOfWave();
             }
+            else if (currentOperationIndex == currentWave.operations.Length && FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length == 0)
+                OnEndOfWave();
         }
     }
 
