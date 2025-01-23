@@ -13,8 +13,20 @@ public class Tower : MonoBehaviour
     [Tooltip("How far in units the tower can see (radial wise)")]
     [SerializeField] private float range;
     private float attackCooldown;
+    private float moneySpent = 0;
 
     [SerializeField] private LayerMask enemyLayer;
+
+    private void Update()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Collider2D hovering = Physics2D.OverlapPoint(mousePos);
+        
+        if (hovering != null && Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(WaitForUserInput());
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -36,6 +48,16 @@ public class Tower : MonoBehaviour
             attackCooldown -= Time.fixedDeltaTime;
     }
 
+    private IEnumerator WaitForUserInput()
+    {   
+        while (!Input.GetKeyDown(KeyCode.X))
+        {
+            yield return null;
+        }
+
+        SellTower();
+    }
+    
     private void Attack(Enemy target)
     {
         Vector2 direction = target.transform.position - transform.position;
@@ -44,5 +66,11 @@ public class Tower : MonoBehaviour
 
         target.TakeDamage(damage);
         attackCooldown = firerate;
+    }
+
+    private void SellTower()
+    {
+        MoneyManager.instance.ChangeMoney(moneySpent / 2);
+        Destroy(this.gameObject);
     }
 }
