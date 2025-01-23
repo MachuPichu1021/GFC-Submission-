@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
+        MoneyManager.instance.ChangeMoney(Mathf.Min(dmg, health));
         health -= dmg;
         if (health <= 0)
             Destroy(gameObject);

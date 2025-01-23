@@ -29,16 +29,14 @@ public class Tower : MonoBehaviour
             {
                 IOrderedEnumerable<Enemy> enemiesSorted = enemies.OrderByDescending(e => e.TrackDistance());
                 Enemy target = enemiesSorted.First();
-                print(target);
-
-                Fire(target);
+                Attack(target);
             }
         }
         else
             attackCooldown -= Time.fixedDeltaTime;
     }
 
-    private void Fire(Enemy target)
+    private void Attack(Enemy target)
     {
         Vector2 direction = target.transform.position - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

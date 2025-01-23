@@ -17,6 +17,10 @@ public struct SpawnOperation
 public struct Wave
 {
     public SpawnOperation[] operations;
+    [Tooltip("The amount of money to award at the end of this wave")]
+    public int waveReward;
+    [Tooltip("The amount of time to complete this wave before automatically starting the enxt one in seconds")]
+    public float waveTime;
 }
 
 public class Spawner : MonoBehaviour
@@ -34,11 +38,7 @@ public class Spawner : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !waveOngoing)
-        {
-            waveIndex++;
-            currentWave = waves[waveIndex];
-            waveOngoing = true;
-        }
+            StartNextWave();
     }
 
     private void FixedUpdate()
@@ -57,6 +57,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    private void StartNextWave()
+    {
+        waveIndex++;
+        currentWave = waves[waveIndex];
+        waveOngoing = true;
+    }
+
     private void SpawnEnemy()
     {
         currentWave.operations[currentOperationIndex].count--;
@@ -66,6 +73,7 @@ public class Spawner : MonoBehaviour
 
     private void OnEndOfWave()
     {
+        MoneyManager.instance.ChangeMoney(currentWave.waveReward);
         waveOngoing = false;
     }
 }
