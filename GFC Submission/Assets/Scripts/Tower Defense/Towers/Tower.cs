@@ -16,7 +16,7 @@ public class Tower : MonoBehaviour
     private float moneySpent = 0;
 
     [SerializeField] private LayerMask enemyLayer;
-
+    // Matthew add a collider to Test Tower
     private void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
