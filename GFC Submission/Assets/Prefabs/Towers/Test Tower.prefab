@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa89169fe0c54317b811e7cf15d10c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 0
-  attackMagnitude: 0
-  range: 0
+  firerate: 0.5
+  damage: 10
+  range: 2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
