@@ -25,7 +25,7 @@ public class Attack : MonoBehaviour
         enemiesInRange = Physics2D.OverlapCircleAll(transform.position, range);
         enemiesInRange = enemiesInRange.OrderByDescending(Enemy => Enemy.GetComponent<Enemy>().TrackDistance()).ToArray();
 
-        isAttacking = (enemiesInRange.Length == 0);
+        isAttacking = (enemiesInRange.Length != 0);
 
         if(isAttacking)
         {
