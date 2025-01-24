@@ -12,21 +12,12 @@ public class Tower : MonoBehaviour
     [SerializeField] private float damage;
     [Tooltip("How far in units the tower can see (radial wise)")]
     [SerializeField] private float range;
+    public float Range { get => range; private set => range = value; }
     private float attackCooldown;
-    private float moneySpent = 0;
+    
+    private float moneySpent = 500;
 
     [SerializeField] private LayerMask enemyLayer;
-    // Matthew add a collider to Test Tower
-    private void Update()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Collider2D hovering = Physics2D.OverlapPoint(mousePos);
-        
-        if (hovering != null && Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(WaitForUserInput());
-        }
-    }
 
     private void FixedUpdate()
     {
@@ -48,16 +39,6 @@ public class Tower : MonoBehaviour
             attackCooldown -= Time.fixedDeltaTime;
     }
 
-    private IEnumerator WaitForUserInput()
-    {   
-        while (!Input.GetKeyDown(KeyCode.X))
-        {
-            yield return null;
-        }
-
-        SellTower();
-    }
-    
     private void Attack(Enemy target)
     {
         Vector2 direction = target.transform.position - transform.position;
@@ -68,9 +49,9 @@ public class Tower : MonoBehaviour
         attackCooldown = firerate;
     }
 
-    private void SellTower()
+    public void Sell()
     {
         MoneyManager.instance.ChangeMoney(moneySpent / 2);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
