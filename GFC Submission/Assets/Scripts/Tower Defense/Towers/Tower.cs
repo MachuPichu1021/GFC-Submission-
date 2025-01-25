@@ -17,11 +17,19 @@ public class Tower : MonoBehaviour
     public float Damage { get => damage; private set => damage = value; }
     [Tooltip("How far in units the tower can see (radial wise)")]
     [SerializeField] private float range;
-    public float Range { get => range; private set => range = value; }
-    private float attackCooldown;
-    
-    private float moneySpent = 0;
+    public float Range {get => range; private set => range = value; }
+    [SerializeField] private float firerateIncrease;
+    [SerializeField] private float damageIncrease;
+    [SerializeField] private float rangeIncrease;
+    [SerializeField] private float upgradeCostIncrease;
+    [Tooltip("Cost for each upgrade")]
+    [SerializeField] private float upgradeCost = 100f;
+    public float UpgradeCost {get => upgradeCost; private set => upgradeCost = value; }
+    [SerializeField] private int upgradeCount = 0; 
+    public int UpgradeCount {get => upgradeCount; private set => upgradeCount = value; }
 
+    private float attackCooldown;
+    private float moneySpent = 0;
     [SerializeField] private LayerMask enemyLayer;
 
     private void FixedUpdate()
@@ -58,5 +66,34 @@ public class Tower : MonoBehaviour
     {
         MoneyManager.instance.ChangeMoney(moneySpent / 2);
         Destroy(gameObject);
+    }
+
+    public void Upgrade()
+    {
+        if (upgradeCount < 6)
+        {
+            if (MoneyManager.instance.Money >= upgradeCost)
+            {
+                MoneyManager.instance.ChangeMoney(-upgradeCost);
+                upgradeCount++;
+                
+                moneySpent += upgradeCost; 
+                firerate *= (1 - firerateIncrease);
+                damage *= damageIncrease; 
+                range += rangeIncrease;
+                upgradeCost *= upgradeCostIncrease;
+
+                UpdateRange();
+                
+                firerate = (float)Math.Round(firerate, 2);
+                damage = (float)Math.Round(damage, 2);
+                upgradeCost = (float)Math.Round(upgradeCost, 0);
+            }
+        }
+    }
+
+    private void UpdateRange()
+    {
+        transform.GetChild(0).localScale = new Vector3(range, range, range);
     }
 }

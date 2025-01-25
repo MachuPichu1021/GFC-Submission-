@@ -17,6 +17,7 @@ public class SelectTower : MonoBehaviour
     [SerializeField] private TMP_Text firerateText;
     [SerializeField] private TMP_Text damageText;
     [SerializeField] private TMP_Text rangeText;
+    [SerializeField] private TMP_Text upgradeCostText;
     [SerializeField] private Button UICloseButton;
 
 
@@ -34,6 +35,11 @@ public class SelectTower : MonoBehaviour
             {
                 selectedTower.Sell();
                 OnDeselectTower();
+            }
+            else if (Input.GetKeyDown(KeyCode.U))
+            {
+                selectedTower.Upgrade();
+                UpdateUI();
             }
         }
 
@@ -73,5 +79,6 @@ public class SelectTower : MonoBehaviour
         firerateText.text = selectedTower.Firerate.ToString();
         damageText.text = selectedTower.Damage.ToString();
         rangeText.text = selectedTower.Range.ToString();
+        upgradeCostText.text = (selectedTower.UpgradeCount <= 5) ? selectedTower.UpgradeCost.ToString() : "MAX";
     }
 }
