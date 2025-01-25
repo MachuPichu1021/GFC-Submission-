@@ -6,16 +6,21 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [SerializeField] private string towerName;
+    public string Name { get => towerName; private set => towerName = value; }
+
     [Tooltip("The time in seconds between each shot")]
     [SerializeField] private float firerate;
+    public float Firerate { get => firerate; private set => firerate = value; }
     [Tooltip("How much damage the tower does with each projectile")]
     [SerializeField] private float damage;
+    public float Damage { get => damage; private set => damage = value; }
     [Tooltip("How far in units the tower can see (radial wise)")]
     [SerializeField] private float range;
     public float Range { get => range; private set => range = value; }
     private float attackCooldown;
     
-    private float moneySpent = 500;
+    private float moneySpent = 0;
 
     [SerializeField] private LayerMask enemyLayer;
 
