@@ -6,12 +6,9 @@ using TMPro;
 public class HealthManager : MonoBehaviour
 {
     public static HealthManager instance;
-    [SerializeField] private float health ;
-    public float Health {get => health; private set => health = value; }
+    [SerializeField] private float health;
     [SerializeField] private TMP_Text healthText;
 
-
-    // Start is called before the first frame update
     private void Awake()
     {
         if (instance == null)
@@ -22,16 +19,10 @@ public class HealthManager : MonoBehaviour
 
     private void Start()
     {
-        AddBaseHP(100);
+        ChangeHealth(100);
     }
 
-    public void SubtractBaseHP(float amt)
-    {
-        health -= amt;
-        healthText.text = "Health: " + Mathf.RoundToInt(health);
-    }
-
-    public void AddBaseHP(float amt)
+    public void ChangeHealth(float amt)
     {
         health += amt;
         healthText.text = "Health: " + Mathf.RoundToInt(health);

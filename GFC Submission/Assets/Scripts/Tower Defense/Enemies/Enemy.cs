@@ -6,7 +6,6 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float health;
     [SerializeField] private float speed;
-    [SerializeField] private float baseDamage;
 
     //Positioning Variables
     private Transform prevCorner;
@@ -59,7 +58,7 @@ public class Enemy : MonoBehaviour
 
     private void OnEndOfTrackReached()
     {
-        HealthManager.instance.SubtractBaseHP(baseDamage);
+        HealthManager.instance.ChangeHealth(-health);
         Destroy(gameObject);
     }
 }
