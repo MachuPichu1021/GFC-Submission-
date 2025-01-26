@@ -79,6 +79,6 @@ public class SelectTower : MonoBehaviour
         firerateText.text = selectedTower.Firerate.ToString();
         damageText.text = selectedTower.Damage.ToString();
         rangeText.text = selectedTower.Range.ToString();
-        upgradeCostText.text = (selectedTower.UpgradeCount <= 5) ? selectedTower.UpgradeCost.ToString() : "MAX";
+        upgradeCostText.text = (selectedTower.UpgradeCount <= 4) ? selectedTower.UpgradeCost[selectedTower.UpgradeCount].ToString() : "MAX";
     }
 }
