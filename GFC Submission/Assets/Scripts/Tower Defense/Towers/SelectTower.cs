@@ -39,6 +39,7 @@ public class SelectTower : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.U))
             {
                 selectedTower.Upgrade();
+                rangeIndicator.transform.localScale = Vector3.one * selectedTower.Range;
                 UpdateUI();
             }
         }
@@ -61,7 +62,7 @@ public class SelectTower : MonoBehaviour
     private void OnSelectTower()
     {
         rangeIndicator = Instantiate(rangeIndicatorPrefab, selectedTower.transform);
-        rangeIndicator.transform.localScale *= selectedTower.Range;
+        rangeIndicator.transform.localScale = Vector3.one * selectedTower.Range;
         towerSelectUI.SetActive(true);
         UpdateUI();
     }
@@ -79,6 +80,6 @@ public class SelectTower : MonoBehaviour
         firerateText.text = selectedTower.Firerate.ToString();
         damageText.text = selectedTower.Damage.ToString();
         rangeText.text = selectedTower.Range.ToString();
-        upgradeCostText.text = (selectedTower.UpgradeCount <= 4) ? selectedTower.UpgradeCost[selectedTower.UpgradeCount].ToString() : "MAX";
+        upgradeCostText.text = (selectedTower.Level < selectedTower.MaxLevel - 1) ? selectedTower.UpgradeCosts[selectedTower.Level].ToString() : "MAX";
     }
 }

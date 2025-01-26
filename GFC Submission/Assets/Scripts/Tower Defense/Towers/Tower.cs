@@ -18,18 +18,27 @@ public class Tower : MonoBehaviour
     [Tooltip("How far in units the tower can see (radial wise)")]
     [SerializeField] private float range;
     public float Range {get => range; private set => range = value; }
-    [SerializeField] private float[] firerateIncrease = new float[5];
-    [SerializeField] private float[] damageIncrease = new float[5];
-    [SerializeField] private float[] rangeIncrease = new float[5];
+
+    [SerializeField] private int maxLevel;
+    public int MaxLevel { get => maxLevel; private set => maxLevel = value; }
+    [SerializeField] private float[] firerates;
+    [SerializeField] private float[] damages;
+    [SerializeField] private float[] ranges;
     [Tooltip("Cost for each upgrade")]
-    [SerializeField] private float[] upgradeCost = new float[5];
-    public float[] UpgradeCost {get => upgradeCost; private set => upgradeCost = value; }
-    [SerializeField] private int upgradeCount = 0; 
-    public int UpgradeCount {get => upgradeCount; private set => upgradeCount = value; }
+    [SerializeField] private int[] upgradeCosts;
+    public int[] UpgradeCosts {get => upgradeCosts; private set => upgradeCosts = value; }
+    private int level;
+    public int Level {get => level; private set => level = value; }
 
     private float attackCooldown;
     private float moneySpent = 0;
     [SerializeField] private LayerMask enemyLayer;
+
+    private void Start()
+    {
+        if (firerates.Length != maxLevel || damages.Length != maxLevel || ranges.Length != maxLevel || upgradeCosts.Length != maxLevel - 1)
+            Debug.LogError("One or more upgrade arrays on tower: \"" + gameObject.name + "\" are of the wrong size!");
+    }
 
     private void FixedUpdate()
     {
@@ -69,28 +78,25 @@ public class Tower : MonoBehaviour
 
     public void Upgrade()
     {
-        if (upgradeCount < 6)
+        if (level < maxLevel - 1)
         {
-            if (MoneyManager.instance.Money >= upgradeCost[upgradeCount])
+            if (MoneyManager.instance.Money >= upgradeCosts[level])
             {
-                MoneyManager.instance.ChangeMoney(-upgradeCost[upgradeCount]);
-                
-                moneySpent += upgradeCost[upgradeCount]; 
-                firerate -= firerateIncrease[upgradeCount];
-                damage += damageIncrease[upgradeCount]; 
-                range += rangeIncrease[upgradeCount];
-                upgradeCount++;
+                MoneyManager.instance.ChangeMoney(-upgradeCosts[level]);
+                moneySpent += upgradeCosts[level];
 
-                UpdateRange();
-                
-                firerate = (float)Math.Round(firerate, 2);
-                damage = (float)Math.Round(damage, 2);
+                level++;
+                firerate = firerates[level];
+                damage = damages[level];
+                range = ranges[level];
+            }
+            else
+            {
+                //Add in message saying the player ain't rich enough.
+                print("Not enough funds.");
             }
         }
-    }
-
-    private void UpdateRange()
-    {
-        transform.GetChild(0).localScale = new Vector3(range, range, range);
+        else
+            print("Tower is already max level!");
     }
 }
