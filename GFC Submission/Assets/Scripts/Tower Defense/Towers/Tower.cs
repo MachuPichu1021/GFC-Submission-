@@ -30,6 +30,8 @@ public class Tower : MonoBehaviour
     private int level;
     public int Level {get => level; private set => level = value; }
 
+    [SerializeField] private int placementCost = 100;
+    public int PlacementCost {get => placementCost; private set => placementCost = value; }
     private float attackCooldown;
     private float moneySpent = 0;
     [SerializeField] private LayerMask enemyLayer;
@@ -100,3 +102,4 @@ public class Tower : MonoBehaviour
             print("Tower is already max level!");
     }
 }
+
