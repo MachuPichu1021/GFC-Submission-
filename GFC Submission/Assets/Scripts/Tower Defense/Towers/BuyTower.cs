@@ -9,7 +9,7 @@ public class BuyTower : MonoBehaviour
     private Vector2 mousePos;
     private bool onClick = false;
 
-    public void Update()
+    private void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
